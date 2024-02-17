@@ -1,25 +1,45 @@
-﻿@model IEnumerable<CBS_ASPNET_Core_CourseProject.Models.CurrencyRate>
+﻿@model CBS_ASPNET_Core_CourseProject.Controllers.HomeController.CurrencyRatesViewModel
 
-<h2>Currency Rates</h2>
+<h1>Currency Rates</h1>
 
+<h2>PrivatBank Rates</h2>
 <table class="table">
     <thead>
-    <tr>
-        <th>Currency Code</th>
-        <th>Base Currency Code</th>
-        <th>Buy Rate</th>
-        <th>Sell Rate</th>
-    </tr>
+        <tr>
+            <th>Currency</th>
+            <th>Buy Rate</th>
+            <th>Sell Rate</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var rate in Model)
-    {
+        @foreach (var rate in Model.PrivatBankRates)
+        {
+            <tr>
+                <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
+                <td>@rate.BuyRate</td>
+                <td>@rate.SellRate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Monobank Rates</h2>
+<table class="table">
+    <thead>
         <tr>
-            <td>@rate.CurrencyCode</td>
-            <td>@rate.BaseCurrencyCode</td>
-            <td>@rate.BuyRate</td>
-            <td>@rate.SellRate</td>
+            <th>Currency</th>
+            <th>Buy Rate</th>
+            <th>Sell Rate</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var rate in Model.MonobankRates)
+        {
+            <tr>
+                <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
+                <td>@rate.BuyRate</td>
+                <td>@rate.SellRate</td>
+            </tr>
+        }
     </tbody>
 </table>
