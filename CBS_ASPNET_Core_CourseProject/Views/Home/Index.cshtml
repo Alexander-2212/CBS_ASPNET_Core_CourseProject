@@ -1,0 +1,25 @@
+﻿@model IEnumerable<CBS_ASPNET_Core_CourseProject.Models.CurrencyRate>
+
+<h2>Currency Rates</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Currency Code</th>
+        <th>Base Currency Code</th>
+        <th>Buy Rate</th>
+        <th>Sell Rate</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var rate in Model)
+    {
+        <tr>
+            <td>@rate.CurrencyCode</td>
+            <td>@rate.BaseCurrencyCode</td>
+            <td>@rate.BuyRate</td>
+            <td>@rate.SellRate</td>
+        </tr>
+    }
+    </tbody>
+</table>
