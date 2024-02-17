@@ -3,6 +3,8 @@ using CBS_ASPNET_Core_CourseProject.Models;
 using CBS_ASPNET_Core_CourseProject.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Serilog;
+using Serilog.Events;
 
 namespace CBS_ASPNET_Core_CourseProject
 {
@@ -11,10 +13,16 @@ namespace CBS_ASPNET_Core_CourseProject
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddMemoryCache();
             builder.Services.AddControllersWithViews();
             builder.Services.AddHttpClient<CurrencyService>();
+
             builder.Services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Host.UseSerilog((context, services, configuration) =>
+                configuration.ReadFrom.Configuration(context.Configuration));
+
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())
