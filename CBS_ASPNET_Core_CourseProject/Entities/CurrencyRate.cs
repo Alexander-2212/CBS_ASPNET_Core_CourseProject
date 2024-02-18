@@ -1,4 +1,4 @@
-﻿namespace CBS_ASPNET_Core_CourseProject.Models
+﻿namespace CBS_ASPNET_Core_CourseProject.Entities
 {
     public class CurrencyRate
     {

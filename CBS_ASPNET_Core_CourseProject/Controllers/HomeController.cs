@@ -1,5 +1,5 @@
 ﻿using CBS_ASPNET_Core_CourseProject.Data;
-using CBS_ASPNET_Core_CourseProject.Models;
+using CBS_ASPNET_Core_CourseProject.Entities;
 using CBS_ASPNET_Core_CourseProject.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,20 +23,22 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
 
             var privatBankRates = await _currencyService.GetCurrencyRatesAsync();
             var monobankRates = await _currencyService.GetMonobankCurrencyRatesAsync();
+            var nbuRates = await _currencyService.GetNbuCurrencyRatesAsync();
 
-            if (!privatBankRates.Any() || !monobankRates.Any())
+            if (!privatBankRates.Any() || !monobankRates.Any() || !nbuRates.Any())
             {
                 _logger.LogWarning("One or both of the banks did not return any currency rates.");
             }
 
-            var allRates = privatBankRates.Concat(monobankRates).ToList();
+            var allRates = privatBankRates.Concat(monobankRates).Concat(nbuRates).ToList();
 
             await _currencyService.SaveCurrencyRatesAsync(allRates);
 
             var viewModel = new CurrencyRatesViewModel
             {
                 PrivatBankRates = privatBankRates,
-                MonobankRates = monobankRates
+                MonobankRates = monobankRates,
+                NbuRates = nbuRates
             };
 
             _logger.LogInformation("Currency rates successfully fetched and saved.");
@@ -48,6 +50,7 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
         {
             public IEnumerable<CurrencyRate> PrivatBankRates { get; set; }
             public IEnumerable<CurrencyRate> MonobankRates { get; set; }
+            public IEnumerable<CurrencyRate> NbuRates { get; set; }
         }
 
     }

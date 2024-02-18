@@ -1,4 +1,4 @@
-﻿using CBS_ASPNET_Core_CourseProject.Models;
+﻿using CBS_ASPNET_Core_CourseProject.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CBS_ASPNET_Core_CourseProject.Data

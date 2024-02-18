@@ -26,20 +26,39 @@
 <h2>Monobank Rates</h2>
 <table class="table">
     <thead>
-        <tr>
-            <th>Currency</th>
-            <th>Buy Rate</th>
-            <th>Sell Rate</th>
-        </tr>
+    <tr>
+        <th>Currency</th>
+        <th>Buy Rate</th>
+        <th>Sell Rate</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var rate in Model.MonobankRates)
-        {
-            <tr>
-                <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
-                <td>@rate.BuyRate</td>
-                <td>@rate.SellRate</td>
-            </tr>
-        }
+    @foreach (var rate in Model.MonobankRates)
+    {
+        <tr>
+            <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
+            <td>@rate.BuyRate</td>
+            <td>@rate.SellRate</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<h2>NBU Rates</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Currency</th>
+        <th>Rate</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var rate in Model.NbuRates)
+    {
+        <tr>
+            <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
+            <td>@rate.BuyRate</td>
+        </tr>
+    }
     </tbody>
 </table>
