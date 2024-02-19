@@ -1,6 +1,8 @@
 using CBS_ASPNET_Core_CourseProject.Data;
+using CBS_ASPNET_Core_CourseProject.Entities;
 using CBS_ASPNET_Core_CourseProject.Models;
 using CBS_ASPNET_Core_CourseProject.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Serilog;
@@ -17,8 +19,20 @@ namespace CBS_ASPNET_Core_CourseProject
             builder.Services.AddControllersWithViews();
             builder.Services.AddHttpClient<CurrencyService>();
 
-            builder.Services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher>();
+
+            var emailSettings = builder.Configuration.GetSection("EmailSettings").Get<EmailSettings>();
+            builder.Services.AddSingleton(emailSettings);
+
+            builder.Services.AddScoped<IEmailService, EmailService>();
+
 
             builder.Host.UseSerilog((context, services, configuration) =>
                 configuration.ReadFrom.Configuration(context.Configuration));
@@ -35,8 +49,8 @@ namespace CBS_ASPNET_Core_CourseProject
             app.UseStaticFiles();
             app.UseRouting();
 
-            // app.UseAuthentication();
-            // app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",

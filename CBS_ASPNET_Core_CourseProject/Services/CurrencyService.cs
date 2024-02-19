@@ -51,15 +51,23 @@ namespace CBS_ASPNET_Core_CourseProject.Services
                 var responseString = await _httpClient.GetStringAsync("https://api.monobank.ua/bank/currency");
                 var monobankRates = JsonSerializer.Deserialize<List<MonobankCurrencyRate>>(responseString);
 
-                var filteredRates = monobankRates.Where(rate => rate.currencyCodeA == 840 || rate.currencyCodeA == 978)
+                var currencyCodesOfInterest = new Dictionary<int, string>
+                {
+                    { 840, "USD" },
+                    { 978, "EUR" }
+                };
+                int baseCurrencyCodeUAH = 980;
+
+                var filteredRates = monobankRates
+                    .Where(rate => currencyCodesOfInterest.ContainsKey(rate.currencyCodeA) && rate.currencyCodeB == baseCurrencyCodeUAH)
                     .Select(rate => new CurrencyRate
                     {
-                        CurrencyCode = rate.currencyCodeA.ToString(),
+                        CurrencyCode = currencyCodesOfInterest[rate.currencyCodeA],
                         BaseCurrencyCode = "UAH",
                         BuyRate = rate.rateBuy,
                         SellRate = rate.rateSell,
                         Source = "Monobank"
-                    }).ToList();
+                    });
 
                 _cache.Set(cacheKey, filteredRates, TimeSpan.FromMinutes(1));
                 return filteredRates;

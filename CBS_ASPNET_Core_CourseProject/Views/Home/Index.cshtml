@@ -1,5 +1,16 @@
 ﻿@model CBS_ASPNET_Core_CourseProject.Controllers.HomeController.CurrencyRatesViewModel
+@using CBS_ASPNET_Core_CourseProject.Entities
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<User> SignInManager
 
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-controller="Account" asp-action="SendCurrencyRatesEmail" method="post">
+        <button type="submit" class="btn btn-primary">Send Me Today's Currency Rates</button>
+    </form>
+}
 <h1>Currency Rates</h1>
 
 <h2>PrivatBank Rates</h2>
