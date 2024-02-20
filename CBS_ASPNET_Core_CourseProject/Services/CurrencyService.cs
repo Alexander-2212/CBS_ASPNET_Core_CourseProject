@@ -69,7 +69,7 @@ namespace CBS_ASPNET_Core_CourseProject.Services
                         Source = "Monobank"
                     });
 
-                _cache.Set(cacheKey, filteredRates, TimeSpan.FromMinutes(1));
+                _cache.Set(cacheKey, filteredRates, TimeSpan.FromMinutes(5));
                 return filteredRates;
             }
 

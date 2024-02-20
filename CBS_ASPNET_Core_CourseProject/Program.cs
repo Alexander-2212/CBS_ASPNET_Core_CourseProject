@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
+using Telegram.Bot;
 
 namespace CBS_ASPNET_Core_CourseProject
 {
@@ -32,6 +33,14 @@ namespace CBS_ASPNET_Core_CourseProject
             builder.Services.AddSingleton(emailSettings);
 
             builder.Services.AddScoped<IEmailService, EmailService>();
+
+            builder.Services.AddSingleton<ITelegramBotClient>(sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+                var botToken = configuration["TelegramBot:Token"];
+                return new TelegramBotClient(botToken);
+            });
+            builder.Services.AddHostedService<TelegramBotService>();
 
 
             builder.Host.UseSerilog((context, services, configuration) =>
