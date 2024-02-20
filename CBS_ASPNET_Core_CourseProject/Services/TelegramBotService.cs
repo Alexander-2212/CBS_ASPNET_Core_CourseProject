@@ -100,6 +100,8 @@ namespace CBS_ASPNET_Core_CourseProject.Services
                     sb.AppendFormat("{0} | {1} | {2}\n", rate.CurrencyCode, rate.BuyRate, rate.SellRate);
                 }
 
+                sb.Append("-------------------------\n");
+
                 sb.Append("<b>Monobank Rates</b>\n");
 
                 foreach (var rate in monoRates)
