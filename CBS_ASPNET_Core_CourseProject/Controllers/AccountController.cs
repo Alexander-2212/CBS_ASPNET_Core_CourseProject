@@ -154,8 +154,7 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
 
             return builder.ToString();
         }
-
-
+        
 
         [HttpGet]
         [Authorize]
@@ -204,8 +203,6 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
             }
             return View(model);
         }
-
-
 
     }
 }

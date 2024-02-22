@@ -1,5 +1,6 @@
 ﻿using CBS_ASPNET_Core_CourseProject.Data;
 using CBS_ASPNET_Core_CourseProject.Entities;
+using CBS_ASPNET_Core_CourseProject.Models;
 using CBS_ASPNET_Core_CourseProject.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,19 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
             _currencyService = currencyService;
             _logger = logger;
         }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult About()
+        {
+            return View();
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> CurrencyRates()
@@ -45,26 +59,5 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
 
             return View(viewModel);
         }
-
-        public class CurrencyRatesViewModel
-        {
-            public IEnumerable<CurrencyRate> PrivatBankRates { get; set; }
-            public IEnumerable<CurrencyRate> MonobankRates { get; set; }
-            public IEnumerable<CurrencyRate> NbuRates { get; set; }
-        }
-
-        public IActionResult About()
-        {
-            return View();
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-
-
     }
-
 }
