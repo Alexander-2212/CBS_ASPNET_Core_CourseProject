@@ -93,7 +93,9 @@ namespace CBS_ASPNET_Core_CourseProject.Services
                 sb.Append("Валюта | Купівля | Продаж\n");
                 sb.Append("-------------------------\n");
 
-                sb.Append("<b>Privat Rates</b>\n");
+                sb.Append("<b>Курси валют ПриватБанку</b>\n");
+
+                sb.Append("-------------------------\n");
 
                 foreach (var rate in rates)
                 {
@@ -102,7 +104,9 @@ namespace CBS_ASPNET_Core_CourseProject.Services
 
                 sb.Append("-------------------------\n");
 
-                sb.Append("<b>Monobank Rates</b>\n");
+                sb.Append("<b>Курси валют Монобанку</b>\n");
+
+                sb.Append("-------------------------\n");
 
                 foreach (var rate in monoRates)
                 {
@@ -111,7 +115,9 @@ namespace CBS_ASPNET_Core_CourseProject.Services
 
                 sb.Append("-------------------------\n");
 
-                sb.Append("<b>NBU Rates</b>\n");
+                sb.Append("<b>Курси валют НБУ</b>\n");
+
+                sb.Append("-------------------------\n");
 
                 foreach (var rate in NBURates)
                 {
@@ -126,6 +132,6 @@ namespace CBS_ASPNET_Core_CourseProject.Services
         }
 
     }
-    
+
 }
 

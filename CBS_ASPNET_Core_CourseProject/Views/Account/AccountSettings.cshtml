@@ -1,0 +1,38 @@
+﻿@model CBS_ASPNET_Core_CourseProject.Models.AccountSettingsViewModel
+
+@{
+    ViewData["Title"] = "Налаштування Акаунта";
+    }
+
+<div class="container mt-3">
+    <h2>Налаштування Акаунта</h2>
+    <hr />
+    <form asp-action="AccountSettings" method="post">
+        <div class="form-group">
+            <label asp-for="Email">Електронна пошта</label>
+            <input asp-for="Email" class="form-control" readonly />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CurrentPassword">Поточний пароль</label>
+            <input asp-for="CurrentPassword" type="password" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NewPassword">Новий пароль</label>
+            <input asp-for="NewPassword" type="password" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ConfirmNewPassword">Підтвердити новий пароль</label>
+            <input asp-for="ConfirmNewPassword" type="password" class="form-control" />
+        </div>
+
+        <div class="form-group form-check">
+            <input asp-for="WantsEmailNotifications" class="form-check-input" />
+            <label asp-for="WantsEmailNotifications" class="form-check-label">Отримувати сповіщення на електронну пошту</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Зберегти зміни</button>
+    </form>
+</div>

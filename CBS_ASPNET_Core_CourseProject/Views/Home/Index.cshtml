@@ -1,75 +1,29 @@
-﻿@model CBS_ASPNET_Core_CourseProject.Controllers.HomeController.CurrencyRatesViewModel
-@using CBS_ASPNET_Core_CourseProject.Entities
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@inject SignInManager<User> SignInManager
-
-@if (SignInManager.IsSignedIn(User))
-{
-    <form asp-controller="Account" asp-action="SendCurrencyRatesEmail" method="post">
-        <button type="submit" class="btn btn-primary">Send Me Today's Currency Rates</button>
-    </form>
+﻿@{
+    ViewBag.Title = "Головна Сторінка";
 }
-<h1>Currency Rates</h1>
 
-<h2>PrivatBank Rates</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Currency</th>
-            <th>Buy Rate</th>
-            <th>Sell Rate</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var rate in Model.PrivatBankRates)
-        {
-            <tr>
-                <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
-                <td>@rate.BuyRate</td>
-                <td>@rate.SellRate</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">Ласкаво просимо до CurrencyTracker!</h1>
+        <p class="lead">Цей застосунок дозволяє вам відслідковувати актуальні курси валют з різних банків.</p>
+        <hr class="my-4">
+        <p>Використовуйте наш сервіс для отримання найсвіжіших даних про курси валют, порівняння курсів між банками та отримання сповіщень про зміни курсів.</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/Home/CurrencyRates" role="button">Переглянути курси валют</a>
+        </p>
+    </div>
 
-<h2>Monobank Rates</h2>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Currency</th>
-        <th>Buy Rate</th>
-        <th>Sell Rate</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var rate in Model.MonobankRates)
-    {
-        <tr>
-            <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
-            <td>@rate.BuyRate</td>
-            <td>@rate.SellRate</td>
-        </tr>
-    }
-    </tbody>
-</table>
-
-<h2>NBU Rates</h2>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Currency</th>
-        <th>Rate</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var rate in Model.NbuRates)
-    {
-        <tr>
-            <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
-            <td>@rate.BuyRate</td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Як це працює?</h2>
+            <p>Наш застосунок збирає інформацію про курси валют з відкритих джерел та прямих API банків, обробляє отримані дані та надає їх в зручному для вас форматі.</p>
+            <p><a class="btn btn-secondary" href="/Home/About" role="button">Дізнатися більше &raquo;</a></p>
+        </div>
+        <div class="col-md-6">
+            <h2>Початок роботи</h2>
+            <p>Для повного доступу до функціоналу застосунку, будь ласка, зареєструйтеся або увійдіть в свій акаунт.</p>
+            <p><a class="btn btn-secondary" href="/Account/Register" role="button">Зареєструватися &raquo;</a></p>
+            <p><a class="btn btn-secondary" href="/Account/Login" role="button">Увійти &raquo;</a></p>
+        </div>
+    </div>
+</div>

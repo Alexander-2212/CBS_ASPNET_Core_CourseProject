@@ -18,14 +18,24 @@ namespace CBS_ASPNET_Core_CourseProject
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddMemoryCache();
             builder.Services.AddControllersWithViews();
+            builder.Host.UseSerilog((context, services, configuration) =>
+                configuration.ReadFrom.Configuration(context.Configuration));
+
             builder.Services.AddHttpClient<CurrencyService>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            builder.Services.AddDefaultIdentity<User>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher>();
 
@@ -42,9 +52,6 @@ namespace CBS_ASPNET_Core_CourseProject
             });
             builder.Services.AddHostedService<TelegramBotService>();
 
-
-            builder.Host.UseSerilog((context, services, configuration) =>
-                configuration.ReadFrom.Configuration(context.Configuration));
 
             var app = builder.Build();
 

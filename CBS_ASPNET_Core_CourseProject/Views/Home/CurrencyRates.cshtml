@@ -1,0 +1,74 @@
+﻿@model CBS_ASPNET_Core_CourseProject.Controllers.HomeController.CurrencyRatesViewModel
+@using CBS_ASPNET_Core_CourseProject.Entities
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<User> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-controller="Account" asp-action="SendCurrencyRatesEmail" method="post">
+        <button type="submit" class="btn btn-primary">Надішліть мені сьогоднішні курси валют</button>
+    </form>
+}
+
+<h2>Курси валют ПриватБанку</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Валюта</th>
+            <th>Покупка</th>
+            <th>Продаж</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rate in Model.PrivatBankRates)
+        {
+            <tr>
+                <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
+                <td>@rate.BuyRate</td>
+                <td>@rate.SellRate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Курси валют Монобанку</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Валюта</th>
+            <th>Покупка</th>
+            <th>Продаж</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rate in Model.MonobankRates)
+        {
+            <tr>
+                <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
+                <td>@rate.BuyRate</td>
+                <td>@rate.SellRate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Курси валют НБУ</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Валюта</th>
+            <th>Курс</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rate in Model.NbuRates)
+        {
+            <tr>
+                <td>@rate.CurrencyCode to @rate.BaseCurrencyCode</td>
+                <td>@rate.BuyRate</td>
+            </tr>
+        }
+    </tbody>
+</table>

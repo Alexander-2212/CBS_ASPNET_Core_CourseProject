@@ -107,7 +107,7 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
             if (user != null && user.WantsEmailNotifications)
             {
                 var summaryHtml = await GetCurrencyRatesSummaryAsync();
-                await _emailService.SendEmailAsync(user.Email, "Your Daily Currency Rates Summary", summaryHtml);
+                await _emailService.SendEmailAsync(user.Email, "Підсумок ваших щоденних курсів валют", summaryHtml);
 
                 return RedirectToAction("Index", "Home").WithSuccess("Success", "Email sent successfully.");
             }
@@ -121,9 +121,9 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
             var NBURates = await _currencyRateService.GetNbuCurrencyRatesAsync();
 
             var builder = new StringBuilder();
-            builder.Append("<h1>Daily Currency Rates Summary</h1>");
-            builder.Append("<h2>Privat Rates</h2>");
-            builder.Append("<table><thead><tr><th>Currency</th><th>Buy Rate</th><th>Sell Rate</th></tr></thead><tbody>");
+            builder.Append("<h1>Сьогоднішні курси валют</h1>");
+            builder.Append("<h2>Курси ПриватБанку</h2>");
+            builder.Append("<table><thead><tr><th>Валюта</th><th>Купівля</th><th>Продаж</th></tr></thead><tbody>");
 
             foreach (var rate in rates)
             {
@@ -132,9 +132,8 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
 
             builder.Append("</tbody></table>");
 
-            builder.Append("<h2>Monobank Rates</h2>");
-            builder.Append("<table><thead><tr><th>Currency</th><th>Buy Rate</th><th>Sell Rate</th></tr></thead><tbody>");
-
+            builder.Append("<h2>Курси Монобанку</h2>");
+            builder.Append("<table><thead><tr><th>Валюта</th><th>Купівля</th><th>Продаж</th></tr></thead><tbody>");
 
             foreach (var rate in monoRates)
             {
@@ -143,19 +142,69 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
 
             builder.Append("</tbody></table>");
 
-            builder.Append("<h2>NBU Rates</h2>");
-            builder.Append("<table><thead><tr><th>Currency</th><th>Buy Rate</th><th>Sell Rate</th></tr></thead><tbody>");
-
+            builder.Append("<h2>Курси НБУ</h2>");
+            builder.Append("<table><thead><tr><th>Валюта</th><th>Курс</th></tr></thead><tbody>");
 
             foreach (var rate in NBURates)
             {
-                builder.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", rate.CurrencyCode, rate.BuyRate, rate.SellRate);
+                builder.AppendFormat("<tr><td>{0}</td><td>{1}</td></tr>", rate.CurrencyCode, rate.BuyRate);
             }
 
             builder.Append("</tbody></table>");
 
             return builder.ToString();
         }
+
+
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> AccountSettings()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var model = new AccountSettingsViewModel
+            {
+                Email = user.Email,
+                WantsEmailNotifications = user.WantsEmailNotifications
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AccountSettings(AccountSettingsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                user.WantsEmailNotifications = model.WantsEmailNotifications;
+
+                IdentityResult result = IdentityResult.Success;
+
+                if (!string.IsNullOrEmpty(model.NewPassword) && !string.IsNullOrEmpty(model.CurrentPassword))
+                {
+                    result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                }
+                else
+                {
+                    result = await _userManager.UpdateAsync(user);
+                }
+
+                if (result.Succeeded)
+                {
+                    TempData["SuccessMessage"] = "Налаштування облікового запису успішно оновлено.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            return View(model);
+        }
+
 
 
     }

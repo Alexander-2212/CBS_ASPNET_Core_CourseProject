@@ -13,7 +13,7 @@ namespace CBS_ASPNET_Core_CourseProject.Models
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Пароль і пароль підтвердження не збігаються.")]
         public string ConfirmPassword { get; set; }
 
         public bool WantsEmailNotifications { get; set; }

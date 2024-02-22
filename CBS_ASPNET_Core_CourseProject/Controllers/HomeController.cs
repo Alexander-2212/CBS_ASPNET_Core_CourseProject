@@ -17,9 +17,9 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> CurrencyRates()
         {
-            _logger.LogInformation("Fetching currency rates for PrivatBank and Monobank");
+            _logger.LogInformation("Отримання курсів валют для ПриватБанку та Монобанку");
 
             var privatBankRates = await _currencyService.GetCurrencyRatesAsync();
             var monobankRates = await _currencyService.GetMonobankCurrencyRatesAsync();
@@ -27,7 +27,7 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
 
             if (!privatBankRates.Any() || !monobankRates.Any() || !nbuRates.Any())
             {
-                _logger.LogWarning("One or both of the banks did not return any currency rates.");
+                _logger.LogWarning("Один або декілька банків не повернули курси валют.");
             }
 
             var allRates = privatBankRates.Concat(monobankRates).Concat(nbuRates).ToList();
@@ -41,7 +41,7 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
                 NbuRates = nbuRates
             };
 
-            _logger.LogInformation("Currency rates successfully fetched and saved.");
+            _logger.LogInformation("Курси валют успішно отримано та збережено.");
 
             return View(viewModel);
         }
@@ -53,5 +53,18 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
             public IEnumerable<CurrencyRate> NbuRates { get; set; }
         }
 
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+
+
     }
+
 }
