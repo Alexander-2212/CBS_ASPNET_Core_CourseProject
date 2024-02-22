@@ -44,6 +44,12 @@ namespace CBS_ASPNET_Core_CourseProject.Services
             await Task.Delay(Timeout.Infinite, stoppingToken);
         }
 
+        Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
+        {
+            _logger.LogError(exception, "Помилка при обробці оновлення від Telegram.");
+            return Task.CompletedTask;
+        }
+
         async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             if (update.Message?.Text != null && update.Message.Text.ToLower().Contains("/rates"))
@@ -61,13 +67,6 @@ namespace CBS_ASPNET_Core_CourseProject.Services
                 _logger.LogInformation("Відповідь на команду /rates відправлена.");
 
             }
-        }
-
-
-        Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
-        {
-            _logger.LogError(exception, "Помилка при обробці оновлення від Telegram.");
-            return Task.CompletedTask;
         }
 
         public async Task<string> FormatCurrencyRatesAsHtmlAsync()

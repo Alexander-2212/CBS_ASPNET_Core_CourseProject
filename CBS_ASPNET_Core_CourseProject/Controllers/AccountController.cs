@@ -73,7 +73,7 @@ namespace CBS_ASPNET_Core_CourseProject.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Недійсна спроба входу.");
                     return View(model);
                 }
             }
